@@ -16,7 +16,7 @@ EXPOSE 8080
 # Install dependencies
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
-    apt-get -y install mongodb ruby imagemagick ruby-dev build-essential libxml2-dev libxslt-dev && \
+    apt-get -y install mongodb ruby imagemagick ruby-dev build-essential libxml2-dev libxslt-dev git && \
     gem install bundler rake --no-rdoc && \
     gem install rails --version=3.2.19 --no-rdoc
 
@@ -34,9 +34,6 @@ RUN cd /srv/locomotivecms && \
 USER locomotivecms
 RUN cd /srv/locomotivecms && \
     bundle exec rails g locomotive:install
-
-# Fix for devise error - https://groups.google.com/forum/#!topic/locomotivecms/98leJ_A2X5k
-RUN sed -i '4,5 d' /srv/locomotivecms/config/initializers/devise.rb
 
 # Set up services && fix ownerships
 USER root
